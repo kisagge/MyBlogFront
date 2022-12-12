@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const MainPage = () => {
+const PostPage = () => {
   return (
     <Pub.Page>
       <h1>hello</h1>
@@ -8,7 +8,7 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default PostPage;
 
 const Pub = {
   Page: styled.div`

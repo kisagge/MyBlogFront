@@ -4,6 +4,7 @@ import { Reset } from "styled-reset";
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/Login";
 import MainPage from "./pages/Main";
+import PostPage from "./pages/Posts";
 import SignInPage from "./pages/SignUp";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="sign-in" element={<SignInPage />} />
+          <Route path="/post" element={<PostPage />} />
         </Routes>
       </RecoilRoot>
     </BrowserRouter>

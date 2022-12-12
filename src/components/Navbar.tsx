@@ -9,7 +9,9 @@ const Navbar = () => {
         <Pub.NavbarLi>
           <Pub.NavbarLink to="/">Main</Pub.NavbarLink>
         </Pub.NavbarLi>
-        <Pub.NavbarLi>Post</Pub.NavbarLi>
+        <Pub.NavbarLi>
+          <Pub.NavbarLink to="/posts">Posts</Pub.NavbarLink>
+        </Pub.NavbarLi>
         <Pub.NavbarLi>Info</Pub.NavbarLi>
         <Pub.NavbarLi>
           <Pub.NavbarLink to="/login">Login</Pub.NavbarLink>
