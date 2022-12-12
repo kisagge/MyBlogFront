@@ -1,8 +1,22 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 
 import styled from "styled-components";
+import { LoginReq, LoginRes } from "../../api/schema";
 
-const INPUT_MAXLENGTH = 20;
+const INPUT_MAXLENGTH = 15;
+
+const LoginApi = async ({ userId, password }: LoginReq): Promise<LoginRes> => {
+  const loginRes: LoginReq = {
+    userId,
+    password,
+  };
+  return await (
+    await fetch(`http://localhost:5000/api/user/login`, {
+      method: "POST",
+      body: JSON.stringify(loginRes),
+    })
+  ).json();
+};
 
 const LoginPage = () => {
   const [id, setId] = useState<string>("");
@@ -18,9 +32,11 @@ const LoginPage = () => {
   };
 
   // onClick Handler
-  const handleClickLoginButton = (e: FormEvent<HTMLFormElement>) => {
+  const handleClickLoginButton = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(111);
+    const res = await LoginApi({ userId: id, password });
+
+    console.log(res);
   };
 
   return (
@@ -52,7 +68,7 @@ const LoginPage = () => {
             <button>Login</button>
           </Pub.LoginButton>
           <Pub.SignInButton>
-            <button type="button">Sign In</button>
+            <button type="button">Sign Up</button>
           </Pub.SignInButton>
         </Pub.LoginFormSection>
       </Pub.LoginSection>
@@ -142,7 +158,7 @@ const Pub = {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    padding: 15px 0;
+    padding: 30px 0 15px 0;
 
     button {
       height: 50px;
