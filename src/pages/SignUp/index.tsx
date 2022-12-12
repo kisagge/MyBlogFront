@@ -1,29 +1,12 @@
-import { ChangeEvent, FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { ChangeEvent, useState } from "react";
 import styled from "styled-components";
-import { LoginReq, LoginRes } from "../../api/schema";
 
 const INPUT_MAXLENGTH = 15;
 
-const LoginApi = async ({ userId, password }: LoginReq): Promise<LoginRes> => {
-  const loginRes: LoginReq = {
-    userId,
-    password,
-  };
-  return await (
-    await fetch(`http://localhost:5000/api/user/login`, {
-      method: "POST",
-      body: JSON.stringify(loginRes),
-    })
-  ).json();
-};
-
-const LoginPage = () => {
-  const navigate = useNavigate();
-
+const SignUpPage = () => {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
 
   // input Handler
   const handleChangeId = (e: ChangeEvent<HTMLInputElement>) => {
@@ -34,28 +17,20 @@ const LoginPage = () => {
     setPassword(e.target.value);
   };
 
-  // onClick Handler
-  const handleClickLoginButton = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const res = await LoginApi({ userId: id, password });
-
-    console.log(res);
-  };
-
-  const handleClickSignInButton = () => {
-    navigate({ pathname: "/sign-in" });
+  const handleChangeConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => {
+    setConfirmPassword(e.target.value);
   };
 
   return (
     <Pub.Page>
-      <Pub.LoginSection>
-        <Pub.LoginLogo>Login</Pub.LoginLogo>
-        <Pub.LoginFormSection onSubmit={handleClickLoginButton}>
-          <Pub.LoginIdDiv>
+      <Pub.SignUpSection>
+        <Pub.SignUpLogo>Sign Up</Pub.SignUpLogo>
+        <Pub.SignUpFormSection>
+          <Pub.SignUpIdDiv>
             <label htmlFor="userId">Id</label>
             <input id="userId" onChange={handleChangeId} value={id} maxLength={INPUT_MAXLENGTH} />
-          </Pub.LoginIdDiv>
-          <Pub.LoginPasswordDiv>
+          </Pub.SignUpIdDiv>
+          <Pub.SignUpPasswordDiv>
             <label htmlFor="password">Password</label>
             <input
               id="password"
@@ -65,22 +40,28 @@ const LoginPage = () => {
               autoComplete="off"
               maxLength={INPUT_MAXLENGTH}
             />
-          </Pub.LoginPasswordDiv>
-          <Pub.LoginButton>
-            <button>Login</button>
-          </Pub.LoginButton>
-          <Pub.SignInButton>
-            <button type="button" onClick={handleClickSignInButton}>
-              Sign Up
-            </button>
-          </Pub.SignInButton>
-        </Pub.LoginFormSection>
-      </Pub.LoginSection>
+          </Pub.SignUpPasswordDiv>
+          <Pub.SignUpConfirmPasswordDiv>
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              id="confirmPassword"
+              onChange={handleChangeConfirmPassword}
+              value={confirmPassword}
+              type="password"
+              autoComplete="off"
+              maxLength={INPUT_MAXLENGTH}
+            />
+          </Pub.SignUpConfirmPasswordDiv>
+          <Pub.SignUpButton>
+            <button>Sign Up</button>
+          </Pub.SignUpButton>
+        </Pub.SignUpFormSection>
+      </Pub.SignUpSection>
     </Pub.Page>
   );
 };
 
-export default LoginPage;
+export default SignUpPage;
 
 const Pub = {
   Page: styled.div`
@@ -92,7 +73,7 @@ const Pub = {
     overflow: hidden;
   `,
 
-  LoginSection: styled.section`
+  SignUpSection: styled.section`
     width: 500px;
     height: 700px;
     border: 1px solid #333333;
@@ -103,7 +84,7 @@ const Pub = {
     border: none;
   `,
 
-  LoginLogo: styled.div`
+  SignUpLogo: styled.div`
     height: 130px;
     text-align: center;
     padding-top: 100px;
@@ -111,13 +92,13 @@ const Pub = {
     font-weight: 1000;
   `,
 
-  LoginFormSection: styled.form`
+  SignUpFormSection: styled.form`
     label {
       display: block;
     }
   `,
 
-  LoginIdDiv: styled.div`
+  SignUpIdDiv: styled.div`
     width: 70%;
     display: flex;
     flex-direction: column;
@@ -137,7 +118,27 @@ const Pub = {
     }
   `,
 
-  LoginPasswordDiv: styled.div`
+  SignUpPasswordDiv: styled.div`
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+
+    label {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    input {
+      height: 30px;
+      margin-bottom: 20px;
+      border: none;
+      border-bottom: 1px solid #000000;
+      outline: none;
+    }
+  `,
+
+  SignUpConfirmPasswordDiv: styled.div`
     width: 70%;
     display: flex;
     flex-direction: column;
@@ -157,37 +158,13 @@ const Pub = {
     }
   `,
 
-  LoginButton: styled.div`
+  SignUpButton: styled.div`
     width: 70%;
 
     display: flex;
     flex-direction: column;
     margin: 0 auto;
     padding: 30px 0 15px 0;
-
-    button {
-      height: 50px;
-      border: none;
-      display: inline-block;
-      border-radius: 15px;
-      text-decoration: none;
-      font-weight: 600;
-      background-color: #444444;
-      color: white;
-
-      :hover {
-        cursor: pointer;
-      }
-    }
-  `,
-
-  SignInButton: styled.div`
-    width: 70%;
-
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    padding: 15px 0;
 
     button {
       height: 50px;
