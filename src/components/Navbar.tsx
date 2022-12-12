@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Pub from "./NavbarStyle";
 
 const Navbar = () => {
@@ -8,11 +7,13 @@ const Navbar = () => {
 
       <Pub.NavbarUl>
         <Pub.NavbarLi>
-          <Pub.NavbarLink to="/">Post1</Pub.NavbarLink>
+          <Pub.NavbarLink to="/">Main</Pub.NavbarLink>
         </Pub.NavbarLi>
-        <Pub.NavbarLi>Post2</Pub.NavbarLi>
-        <Pub.NavbarLi>Post3</Pub.NavbarLi>
-        <Pub.NavbarLi>Post4</Pub.NavbarLi>
+        <Pub.NavbarLi>Post</Pub.NavbarLi>
+        <Pub.NavbarLi>Info</Pub.NavbarLi>
+        <Pub.NavbarLi>
+          <Pub.NavbarLink to="/login">Login</Pub.NavbarLink>
+        </Pub.NavbarLi>
       </Pub.NavbarUl>
     </Pub.Navbar>
   );
