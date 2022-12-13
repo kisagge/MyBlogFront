@@ -1,12 +1,17 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import api from "../../api/api";
 
 const INPUT_MAXLENGTH = 15;
 
 const SignUpPage = () => {
-  const [id, setId] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const navigate = useNavigate();
+
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
 
   // input Handler
   const handleChangeId = (e: ChangeEvent<HTMLInputElement>) => {
@@ -21,11 +26,32 @@ const SignUpPage = () => {
     setConfirmPassword(e.target.value);
   };
 
+  const handleClickSignInButton = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const res = await api.signUp({ userId: id, password });
+
+      if (!res.result) {
+        if (res.error) {
+          setError(res.error);
+        } else {
+          setError("Failed to sign up");
+        }
+      }
+
+      navigate({
+        pathname: "/login",
+      });
+    } catch (err) {
+      setError(String(err));
+    }
+  };
+
   return (
     <Pub.Page>
       <Pub.SignUpSection>
         <Pub.SignUpLogo>Sign Up</Pub.SignUpLogo>
-        <Pub.SignUpFormSection>
+        <Pub.SignUpFormSection onSubmit={handleClickSignInButton}>
           <Pub.SignUpIdDiv>
             <label htmlFor="userId">Id</label>
             <input id="userId" onChange={handleChangeId} value={id} maxLength={INPUT_MAXLENGTH} />
@@ -55,6 +81,7 @@ const SignUpPage = () => {
           <Pub.SignUpButton>
             <button>Sign Up</button>
           </Pub.SignUpButton>
+          {error && <Pub.SignUpErrorDiv>{error}</Pub.SignUpErrorDiv>}
         </Pub.SignUpFormSection>
       </Pub.SignUpSection>
     </Pub.Page>
@@ -180,5 +207,13 @@ const Pub = {
         cursor: pointer;
       }
     }
+  `,
+
+  SignUpErrorDiv: styled.div`
+    width: 70%;
+
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
   `,
 };

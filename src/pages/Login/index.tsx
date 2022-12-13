@@ -2,22 +2,9 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
-import { LoginReq, LoginRes } from "../../api/schema";
+import api from "../../api/api";
 
 const INPUT_MAXLENGTH = 15;
-
-const LoginApi = async ({ userId, password }: LoginReq): Promise<LoginRes> => {
-  const loginRes: LoginReq = {
-    userId,
-    password,
-  };
-  return await (
-    await fetch(`http://localhost:5000/api/user/login`, {
-      method: "POST",
-      body: JSON.stringify(loginRes),
-    })
-  ).json();
-};
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -37,9 +24,11 @@ const LoginPage = () => {
   // onClick Handler
   const handleClickLoginButton = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await LoginApi({ userId: id, password });
+    const res = await api.login({ userId: id, password });
 
-    console.log(res);
+    if (res.data) {
+      console.log(res.data.token);
+    }
   };
 
   const handleClickSignInButton = () => {
