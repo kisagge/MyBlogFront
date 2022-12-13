@@ -17,3 +17,12 @@ export interface SignUpReq {
   userId: string;
   password: string;
 }
+
+export interface UserInfoReq {
+  token: string;
+}
+
+export interface UserInfoRes {
+  userId: string;
+  role: number;
+}

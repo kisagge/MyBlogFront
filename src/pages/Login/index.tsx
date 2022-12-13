@@ -11,6 +11,7 @@ const LoginPage = () => {
 
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState("");
 
   // input Handler
   const handleChangeId = (e: ChangeEvent<HTMLInputElement>) => {
@@ -24,14 +25,29 @@ const LoginPage = () => {
   // onClick Handler
   const handleClickLoginButton = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await api.login({ userId: id, password });
+    try {
+      const res = await api.login({ userId: id, password });
 
-    if (res.data) {
-      console.log(res.data.token);
+      if (!res.data) {
+        if (res.error) {
+          setError(res.error);
+        } else {
+          setError("Failed to login");
+        }
+        return;
+      }
+
+      sessionStorage.setItem("accessToken", res.data.token);
+
+      navigate({
+        pathname: "/",
+      });
+    } catch (err) {
+      setError(String(err));
     }
   };
 
-  const handleClickSignInButton = () => {
+  const handleClickSignUpButton = () => {
     navigate({ pathname: "/sign-in" });
   };
 
@@ -58,11 +74,12 @@ const LoginPage = () => {
           <Pub.LoginButton>
             <button>Login</button>
           </Pub.LoginButton>
-          <Pub.SignInButton>
-            <button type="button" onClick={handleClickSignInButton}>
+          <Pub.SignUpButton>
+            <button type="button" onClick={handleClickSignUpButton}>
               Sign Up
             </button>
-          </Pub.SignInButton>
+          </Pub.SignUpButton>
+          {error && <Pub.LoginErrorDiv>{error}</Pub.LoginErrorDiv>}
         </Pub.LoginFormSection>
       </Pub.LoginSection>
     </Pub.Page>
@@ -170,7 +187,7 @@ const Pub = {
     }
   `,
 
-  SignInButton: styled.div`
+  SignUpButton: styled.div`
     width: 70%;
 
     display: flex;
@@ -192,5 +209,15 @@ const Pub = {
         cursor: pointer;
       }
     }
+  `,
+
+  LoginErrorDiv: styled.div`
+    width: 70%;
+
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+
+    color: red;
   `,
 };

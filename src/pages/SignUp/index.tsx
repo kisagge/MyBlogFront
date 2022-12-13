@@ -37,6 +37,8 @@ const SignUpPage = () => {
         } else {
           setError("Failed to sign up");
         }
+
+        return;
       }
 
       navigate({
@@ -215,5 +217,7 @@ const Pub = {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
+
+    color: red;
   `,
 };
