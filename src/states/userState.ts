@@ -1,4 +1,4 @@
-import { atom, selector } from "recoil";
+import { atom } from "recoil";
 import { UserInfoRes } from "../api/schema";
 
 export const userInfoState = atom<UserInfoRes>({

@@ -1,6 +1,6 @@
 import { LoginReq, LoginRes, ResType, SignUpReq, UserInfoReq, UserInfoRes } from "./schema";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL ?? "http://localhost:5000" + "/api";
+const API_BASE_URL = "http://localhost:5000" + "/api";
 
 const api = {
   login: async (request: LoginReq): Promise<ResType<LoginRes>> => {
@@ -33,7 +33,7 @@ const api = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authentication: `Bearer ${request.token}`,
+          Authorization: `Bearer ${request.token}`,
         },
       })
     ).json();

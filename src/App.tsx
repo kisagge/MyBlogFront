@@ -4,8 +4,8 @@ import { Reset } from "styled-reset";
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/Login";
 import MainPage from "./pages/Main";
-import PostPage from "./pages/Posts";
-import SignInPage from "./pages/SignUp";
+import PostsPage from "./pages/Posts";
+import SignUpPage from "./pages/SignUp";
 
 function App() {
   return (
@@ -16,8 +16,8 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="sign-in" element={<SignInPage />} />
-          <Route path="/post" element={<PostPage />} />
+          <Route path="/sign-up" element={<SignUpPage />} />
+          <Route path="/posts" element={<PostsPage />} />
         </Routes>
       </RecoilRoot>
     </BrowserRouter>

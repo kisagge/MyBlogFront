@@ -1,13 +1,17 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 
 import styled from "styled-components";
 import api from "../../api/api";
+import { userInfoState } from "../../states/userState";
 
 const INPUT_MAXLENGTH = 15;
 
 const LoginPage = () => {
   const navigate = useNavigate();
+
+  const setUserInfo = useSetRecoilState(userInfoState);
 
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -39,6 +43,12 @@ const LoginPage = () => {
 
       sessionStorage.setItem("accessToken", res.data.token);
 
+      api.userInfo({ token: res.data.token }).then((res) => {
+        if (res.data !== null) {
+          setUserInfo(res.data);
+        }
+      });
+
       navigate({
         pathname: "/",
       });
@@ -48,7 +58,7 @@ const LoginPage = () => {
   };
 
   const handleClickSignUpButton = () => {
-    navigate({ pathname: "/sign-in" });
+    navigate({ pathname: "/sign-up" });
   };
 
   return (

@@ -23,16 +23,25 @@ const Pub = {
   NavbarUl: styled.ul`
     display: flex;
     justify-content: space-between;
-    width: 500px;
   `,
 
   NavbarLi: styled.li`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100px;
-  `,
+    width: 120px;
 
+    color: white;
+  `,
+  NavbarLogoutLi: styled.li`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+
+    color: white;
+    cursor: pointer;
+  `,
   NavbarLink: styled(Link)`
     color: white;
 
